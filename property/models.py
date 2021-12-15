@@ -46,11 +46,11 @@ class Property(models.Model):
     
     
 class PropertyImages(models.Model):
-    Property  = models.ForeignKey(Property , related_name ='property_images',on_delete = models.CASCADE)
-    image = models.ImageField(upload_to ='property_images/')
+    property  = models.ForeignKey(Property , related_name ='property_image', on_delete = models.CASCADE)
+    image = models.ImageField(upload_to ='propertyimages/')
     
     def __str__(self):
-        return str (self.Property)
+        return str (self.property)
 
 
 

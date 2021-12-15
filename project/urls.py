@@ -19,7 +19,8 @@ from django.conf import settings
 from django.conf.urls.static import static
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path ('property/' , include('property.urls' , namespace= 'property'))
+    path ('property/' , include('property.urls' , namespace= 'property')),
+    path('summernote/', include('django_summernote.urls')),
 ]
 
 urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

@@ -5,6 +5,7 @@ from .models import Property
 
 class PropertyList(ListView):
     model = Property
+    paginate_by = 1   #لتحديد عدد المواضيع المراد ظهورها في كل صفحة
     ##filter
     ##pagnation
     
