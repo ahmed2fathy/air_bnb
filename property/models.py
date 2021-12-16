@@ -73,29 +73,32 @@ class Category(models.Model):
     
 class PropertyReview(models.Model):
     author    = models.ForeignKey(User, related_name ='review_author' , on_delete = models.CASCADE)
-    Property  = models.ForeignKey(Property , related_name ='review_property', on_delete = models.CASCADE)
+    property  = models.ForeignKey(Property , related_name ='review_property', on_delete = models.CASCADE)
     rate      = models.IntegerField(default = 0)
     feedback  = models.TextField(max_length = 2000)
     crated_at = models.DateTimeField(default = timezone.now)
 
     def __str__(self):
-        return str (self.Property)
+        return str (self.property)
    
+PEOPLE_TYPE = (
+    (1,1),
+    (2,2),
+    (3,3),
+    (4,4),
+    (5,5),
+) 
    
-   
-COUNT = (
-(1,1),
-(2,2),
-(3,3),
-(4,4)  ) 
-    
-class  PropertyBook(models.Model):
-    user = models.ForeignKey(User, related_name ='book_owner' , on_delete = models.CASCADE)
-    Property  = models.ForeignKey(Property , related_name ='book_property', on_delete = models.CASCADE)
-    date_form = models.DateField(default = timezone.now)
-    date_to   = models.DateField(default = timezone.now)
-    guest     = models.CharField(max_length=2, choices = COUNT )
-    children  = models.CharField(max_length=2, choices = COUNT )
+ 
+
+class PropertyBook(models.Model):
+    user = models.ForeignKey(User, related_name='user_book', on_delete=models.CASCADE) 
+    property = models.ForeignKey(Property, related_name='property_book', on_delete=models.CASCADE)
+    date_from = models.DateField(default=timezone.now)
+    date_to =  models.DateField(default=timezone.now)
+    guest = models.IntegerField(default=1 , choices=PEOPLE_TYPE)
+    children = models.IntegerField(default=0 , choices=PEOPLE_TYPE)
     
     def __str__(self):
-        return str (self.Property)
+        return str(self.property)
+        
