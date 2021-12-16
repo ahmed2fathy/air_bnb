@@ -1,7 +1,7 @@
 {% extends 'base.html' %}}
 {% load static %}
 
-
+{% load bootstrap4 %}
 
 {% block body %}
 
@@ -32,14 +32,12 @@
           			
           			
           			<!---الكود الخاص بسلايدر الموضوعات-->
-          		
                      {% for image in object.property_image.all %}
                         <div class="item">
                             <div class="hotel-img" style="background-image: url({{image.image.url}});">
                             </div>
                         </div>
                      {% endfor %}
-          				
           				<!--- نهاية الكود الخاص بسلايدر الموضوعات -->
           			
           				
@@ -47,9 +45,19 @@
           		</div>
           		<div class="col-md-12 hotel-single mt-4 mb-5 ftco-animate">
           			<span>Our Best hotels &amp; Rooms</span>
-          			<h2>Luxury Hotel in Paris</h2>
+          			
+          			<!---الكود الخاص بتايتل الموضوع-->
+          			<h2>{{object}}</h2>
+                    <!--- نهايةالكود الخاص بتايتل الموضوع-->
+
           			<p class="rate mb-5">
-          				<span class="loc"><a href="#"><i class="icon-map"></i> 291 South 21th Street, Suite 721 New York NY 10016</a></span>
+          				<span class="loc">
+          				
+                    <!--الكود الخاص بعرض المكان-->
+          				<a href="#"><i class="icon-map"></i>{{object.place}}</a>
+          			<!-- نهاية الكود الخاص بعرض المكان-->
+
+          				</span>
           				<span class="star">
     							<i class="icon-star"></i>
     							<i class="icon-star"></i>
@@ -57,8 +65,12 @@
     							<i class="icon-star"></i>
     							<i class="icon-star-o"></i>
     							8 Rating</span>
-    						</p>
-    						<p>{{object.description}}</p>
+							</p>
+							
+							
+    						<!--description الكود الحاص بعرض وصف ومحتوي المقال --->	
+    						<p>{{object.description|safe}}</p>
+    						<!--description نهايةالكود الحاص بعرض وصف ومحتوي المقال --->
     						
           		</div>
           		
@@ -167,63 +179,19 @@
           		</div>
           		<div class="col-md-12 hotel-single ftco-animate mb-5 mt-4">
           			<h4 class="mb-5">Check Availability &amp; Booking</h4>
-          			<div class="fields">
-          				<div class="row">
-          					<div class="col-md-6">
-				              <div class="form-group">
-				                <input type="text" class="form-control" placeholder="Name">
-				              </div>
-			              </div>
-			              <div class="col-md-6">
-				              <div class="form-group">
-				                <input type="text" class="form-control" placeholder="Email">
-				              </div>
-			              </div>
-			              <div class="col-md-6">
-				              <div class="form-group">
-				                <input type="text" id="checkin_date" class="form-control" placeholder="Date from">
-				              </div>
-			              </div>
-			              <div class="col-md-6">
-				              <div class="form-group">
-				                <input type="text" id="checkin_date" class="form-control" placeholder="Date to">
-				              </div>
-				            </div>
-				            <div class="col-md-6">
-					            <div class="form-group">
-				                <div class="select-wrap one-third">
-			                    <div class="icon"><span class="ion-ios-arrow-down"></span></div>
-			                    <select name="" id="" class="form-control" placeholder="Guest">
-			                      <option value="0">Guest</option>
-			                      <option value="1">1</option>
-			                      <option value="2">2</option>
-			                      <option value="3">3</option>
-			                      <option value="4">4</option>
-			                    </select>
-			                  </div>
-				              </div>
-			              </div>
-			              <div class="col-md-6">
-					            <div class="form-group">
-				                <div class="select-wrap one-third">
-			                    <div class="icon"><span class="ion-ios-arrow-down"></span></div>
-			                    <select name="" id="" class="form-control" placeholder="Children">
-			                      <option value="0">Children</option>
-			                      <option value="1">1</option>
-			                      <option value="2">2</option>
-			                      <option value="3">3</option>
-			                      <option value="4">4</option>
-			                    </select>
-			                  </div>
-				              </div>
-			              </div>
-				            <div class="col-md-12">
-				              <div class="form-group">
-				                <input type="submit" value="Check Availability" class="btn btn-primary py-3">
-				              </div>
-			              </div>
-		              </div>
-		            </div>
+          			
+          			
+          			<!---الكود الخاص بفورم الحجز  والمستدعي من مكتبة بوت ستراب 4-->
+          			<form method="post" class="form">
+						{% csrf_token %}
+						{% bootstrap_form form %}
+						{% buttons %}
+							<button type="submit" class="btn btn-primary">Check Availability</button>
+						{% endbuttons %}
+					</form>
+          		<!--- نهاية الكود الخاص بفورم الحجز  والمستدعي من مكتبة بوت ستراب-->
+          		
+          		
           		</div>
           		<div class="col-md-12 hotel-single ftco-animate mb-5 mt-4">
           			<h4 class="mb-4">Review &amp; Ratings</h4>
@@ -267,13 +235,26 @@
           		<div class="col-md-12 hotel-single ftco-animate mb-5 mt-5">
           			<h4 class="mb-4">Related Hotels</h4>
           			<div class="row">
+          			
+          			
+          			
+          			<!--الكود الخاص بعمل خلقة تكرارية لعرض المواضيع المتشابهة حسب التصنيف -->
+          			{% for property in related %}
           				<div class="col-md-4">
 				    				<div class="destination">
-				    					<a href="hotel-single.html" class="img img-2" style="background-image: url(images/hotel-1.jpg);"></a>
+				    				
+				    				<!---الكود الخاص بعرض صورة الموضوع-->
+				    					<a href="{{property.get_absolute_url}}" class="img img-2" style="background-image: url({{property.image.url}});"></a>
+				    						<!--- نهاية الكود الخاص بعرض صورة الموضوع-->
+				    						
 				    					<div class="text p-3">
 				    						<div class="d-flex">
 				    							<div class="one">
-						    						<h3><a href="hotel-single.html">Hotel, Italy</a></h3>
+				    							
+				    							<!---الكود الخاص بعرض تايتل الموضوع-->
+						    						<h3><a href="{{property.get_absolute_url}}">{{property}}</a></h3>
+						    							<!--- نهاية الكود الخاص بعرض تايتل الموضوع-->
+						    							
 						    						<p class="rate">
 						    							<i class="icon-star"></i>
 						    							<i class="icon-star"></i>
@@ -284,76 +265,32 @@
 						    						</p>
 					    						</div>
 					    						<div class="two">
-					    							<span class="price per-price">$40<br><small>/night</small></span>
+					    						
+					    						<!---الكود الخاص بالسعر-->
+					    							<span class="price per-price">${{property.price}}<br><small>/night</small></span>
+					    							<!--- نهايةالكود الخاص بالسعر-->
+					    							
 				    							</div>
 				    						</div>
-				    						<p>Far far away, behind the word mountains, far from the countries</p>
+				    						
+				    							<!---الكود الخاص بعرض وصف مختصر للموضوع-->
+				    						<p>{{property.description|safe|truncatewords:3}}</p>
+				    						<!--- نهاية الكود الخاص بعرض وصف مختصر للموضوع-->
+				    						
 				    						<hr>
 				    						<p class="bottom-area d-flex">
-				    							<span><i class="icon-map-o"></i> Miami, Fl</span> 
+				    						
+				    						<!--الكود الخاص بعرض المكان-->
+				    							<span><i class="icon-map-o"></i> {{property.place}}</span> 
+				    							<!-- نهاية الكود الخاص بعرض المكان-->
+				    							
 				    							<span class="ml-auto"><a href="#">Book Now</a></span>
 				    						</p>
 				    					</div>
 				    				</div>
 				    			</div>
-				    			<div class="col-md-4">
-				    				<div class="destination">
-				    					<a href="hotel-single.html" class="img img-2" style="background-image: url(images/hotel-2.jpg);"></a>
-				    					<div class="text p-3">
-				    						<div class="d-flex">
-				    							<div class="one">
-						    						<h3><a href="hotel-single.html">Hotel, Italy</a></h3>
-						    						<p class="rate">
-						    							<i class="icon-star"></i>
-						    							<i class="icon-star"></i>
-						    							<i class="icon-star"></i>
-						    							<i class="icon-star"></i>
-						    							<i class="icon-star-o"></i>
-						    							<span>8 Rating</span>
-						    						</p>
-					    						</div>
-					    						<div class="two">
-					    							<span class="price per-price">$40<br><small>/night</small></span>
-				    							</div>
-				    						</div>
-				    						<p>Far far away, behind the word mountains, far from the countries</p>
-				    						<hr>
-				    						<p class="bottom-area d-flex">
-				    							<span><i class="icon-map-o"></i> Miami, Fl</span> 
-				    							<span class="ml-auto"><a href="#">Book Now</a></span>
-				    						</p>
-				    					</div>
-				    				</div>
-				    			</div>
-				    			<div class="col-md-4">
-				    				<div class="destination">
-				    					<a href="hotel-single.html" class="img img-2" style="background-image: url(images/hotel-3.jpg);"></a>
-				    					<div class="text p-3">
-				    						<div class="d-flex">
-				    							<div class="one">
-						    						<h3><a href="hotel-single.html">Hotel, Italy</a></h3>
-						    						<p class="rate">
-						    							<i class="icon-star"></i>
-						    							<i class="icon-star"></i>
-						    							<i class="icon-star"></i>
-						    							<i class="icon-star"></i>
-						    							<i class="icon-star-o"></i>
-						    							<span>8 Rating</span>
-						    						</p>
-					    						</div>
-					    						<div class="two">
-					    							<span class="price per-price">$40<br><small>/night</small></span>
-				    							</div>
-				    						</div>
-				    						<p>Far far away, behind the word mountains, far from the countries</p>
-				    						<hr>
-				    						<p class="bottom-area d-flex">
-				    							<span><i class="icon-map-o"></i> Miami, Fl</span> 
-				    							<span class="ml-auto"><a href="#">Book Now</a></span>
-				    						</p>
-				    					</div>
-				    				</div>
-				    			</div>
+				    {% endfor %}
+				    <!--  نهاية الكود الخاص بعمل خلقة تكرارية لعرض المواضيع المتشابهة حسب التصنيف -->
           			</div>
           		</div>
 
