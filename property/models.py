@@ -92,12 +92,12 @@ PEOPLE_TYPE = (
  
 
 class PropertyBook(models.Model):
-    user = models.ForeignKey(User, related_name='user_book', on_delete=models.CASCADE) 
-    property = models.ForeignKey(Property, related_name='property_book', on_delete=models.CASCADE)
-    date_from = models.DateField(default=timezone.now)
-    date_to =  models.DateField(default=timezone.now)
-    guest = models.IntegerField(default=1 , choices=PEOPLE_TYPE)
-    children = models.IntegerField(default=0 , choices=PEOPLE_TYPE)
+    user      = models.ForeignKey(User, related_name='user_book', on_delete = models.CASCADE) 
+    property  = models.ForeignKey(Property, related_name='property_book', on_delete = models.CASCADE)
+    date_from = models.DateField(default = timezone.now)
+    date_to   =  models.DateField(default = timezone.now)
+    guest     = models.IntegerField(default = 1 , choices = PEOPLE_TYPE)
+    children  = models.IntegerField(default = 0 , choices = PEOPLE_TYPE)
     
     def __str__(self):
         return str(self.property)
