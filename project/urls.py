@@ -19,8 +19,9 @@ from django.conf import settings
 from django.conf.urls.static import static
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path ('property/' , include('property.urls' , namespace= 'property')),
-    path ('blog/' , include('blog.urls' , namespace= 'blog')),
+    path ('property/' , include('property.urls' , namespace = 'property')),
+    path ('blog/' , include('blog.urls' , namespace = 'blog')),
+    path('' , include('settings.urls' , namespace= 'home')),
     path('summernote/', include('django_summernote.urls')), # summernote الكود الخاص بمكتبة المحرر 
 ]
 
