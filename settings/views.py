@@ -1,8 +1,10 @@
 
+from django.contrib.auth.models import User
 from django.db.models.aggregates import Count
 from django.db.models.query_utils import Q
 from django.shortcuts import render
 from property.models import Property , Place ,Category
+from blog.models import Post
 # Create your views here.
 
 
@@ -11,18 +13,36 @@ from property.models import Property , Place ,Category
 def home (request):
     places = Place.objects.all().annotate(property_count=Count('property_place')) # كود عرض الاماكن
     category = Category.objects.all() # كود عرض التصنيفات
-    restaurant_list= Property.objects.filter(category__name ='Restaurant')[:5]
-    hotel_list= Property.objects.filter(category__name ='Hotel')[:5]
-    places_list= Property.objects.filter(category__name ='places')[:5]
     
-    return render(request, 'settings/home.html' ,{
+    #الاكواد الخاصة بعرض الليستات في الهوم
+    resturant_list= Property.objects.filter(category__name ='resturant')[:5]
+    hotels_list= Property.objects.filter(category__name ='hotel')[:4]
+    places_list= Property.objects.filter(category__name ='places')[:4]
+    recent_posts = Post.objects.all()[:4]
+   
+    # الكود الخاص بعرض العدادت
+    user_count = User.objects.all().count()
+    resturant_count= Property.objects.filter(category__name ='resturant').count()
+    hotels_count= Property.objects.filter(category__name ='hotel').count()
+    places_count= Property.objects.filter(category__name ='places').count()
+     
+     
+    return render(request, 'settings/home.html' ,
+    {
     'places': places ,
     'category': category,
-    'restaurant_list':restaurant_list,
-    'hotel_list':hotel_list,
+    'resturant_list':resturant_list,
+    'hotels_list':hotels_list,
     'places_list':places_list,
+    'recent_posts':recent_posts,
+    'user_count':  user_count,
+    'resturant_count':resturant_count,
+    'hotels_count':hotels_count,
+    'places_count':places_count,
     
-    })
+
+    }
+    )
   #---------------------------------------------  
     
     
@@ -47,3 +67,8 @@ def category_filter(request , category):
     
     
 #----------------------------------------
+
+
+
+def contact_us(request):
+    pass
