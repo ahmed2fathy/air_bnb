@@ -1,4 +1,5 @@
 {% load static %}
+{% load i18n %}
 
 <!DOCTYPE html>
 <html lang="en">
@@ -39,7 +40,26 @@
           <li class="nav-item active"><a href="{% url 'property:property_list' %}" class="nav-link">properties</a></li>
           <li class="nav-item"><a href="{% url 'blog:post_list' %}" class="nav-link">Blog</a></li>
           <li class="nav-item"><a href="{% url 'home:contact_us' %}" class="nav-link">Contact</a></li>
-          <li class="nav-item cta"><a href="" class="nav-link"><span>Add listing</span></a></li>
+          
+          
+          
+          
+          {% if request.user.is_authenticated %}
+            <li class="nav-item cta"><a href="{% url 'accounts:profile' %}" class="nav-link"><span>{% trans 'Profile' %} </span></a></li>
+            <li class="nav-item cta"><a href="" class="nav-link"><span>{% trans 'Add Listing' %}</span></a></li>
+            <li class="nav-item cta"><a href="{% url 'logout' %}" class="nav-link"><span>{% trans 'Logout' %}</span></a></li>
+          
+          {% else %}
+            <li class="nav-item cta"><a href="{% url 'login' %}" class="nav-link"><span>{% trans "Login" %}</span></a></li>
+            <li class="nav-item cta"><a href="{% url 'accounts:signup' %}" class="nav-link"><span>{% trans 'Signup' %}</span></a></li>
+          {% endif %}
+          
+          
+          
+          
+          
+          
+        
         </ul>
       </div>
     </div>
